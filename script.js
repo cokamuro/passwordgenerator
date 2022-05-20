@@ -1,6 +1,9 @@
 var password = {
-  len:0
-
+  len:0,
+  lcChars:-1,
+  ucChars:-1,
+  numChars:-1,
+  specialChars:-1
 }
 
 // Assignment Code
@@ -25,6 +28,7 @@ function generatePassword() {
 
 function queryRules() {
   var validLength=false;
+  var validRules=false;
 
   //length of at least 8 characters and no more than 128 characters
   while (validLength==false) {
@@ -34,8 +38,24 @@ function queryRules() {
             validLength=true;
         }
     }      
-}
-
+  }
   //confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
+  while (validRules==false) {
+    if(confirm("Include lowercase characters (Ok), or do not include (Cancel)?")==false){password.lcChars=0}
+    if(confirm("Include uppercase characters (Ok), or do not include (Cancel)?")==false){password.ucChars=0}
+    if(confirm("Include numeric characters (Ok), or do not include (Cancel)?")==false){password.numChars=0}
+    if(confirm("Include special characters (Ok), or do not include (Cancel)?")==false){password.specialChars=0}      
+    if(password.lcChars!=0 || password.ucChars!=0 || password.numChars!=0 || password.specialChars!=0) {
+      validRules=true;}      
+    else {
+      alert("You must include at least one type of character for password generation.  Please try again")
+      password.lcChars=-1
+      password.ucChars=-1
+      password.numChars=-1
+      password.specialChars=-1
+      }
+  }
+  
+
   //my input should be validated and at least one character type should be selected
 }
