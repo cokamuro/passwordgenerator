@@ -23,6 +23,7 @@ generateBtn.addEventListener("click", writePassword);
 
 function generatePassword() {
   queryRules();
+
   return "test";
 }
 
@@ -45,6 +46,7 @@ function queryRules() {
     if(confirm("Include uppercase characters (Ok), or do not include (Cancel)?")==false){password.ucChars=0}
     if(confirm("Include numeric characters (Ok), or do not include (Cancel)?")==false){password.numChars=0}
     if(confirm("Include special characters (Ok), or do not include (Cancel)?")==false){password.specialChars=0}      
+    //my input should be validated and at least one character type should be selected
     if(password.lcChars!=0 || password.ucChars!=0 || password.numChars!=0 || password.specialChars!=0) {
       validRules=true;}      
     else {
@@ -55,7 +57,44 @@ function queryRules() {
       password.specialChars=-1
       }
   }
-  
+}
 
-  //my input should be validated and at least one character type should be selected
+function calculateCharsOfType() {
+  var charsRemaining=password.len
+  var intDiv=parseint((password.lcChars+password.ucChars+password.numChars+password.specialChars)*-1);
+
+  if(password.lcChars==-1){
+    password.lcChars=intDiv;
+    charsRemaining-=intDiv;
+  }
+  if(password.ucChars==-1){
+    if(charsRemaining>intDiv){
+      password.ucChars=intDiv;
+      charsRemaining-=intDiv;  
+    } else {
+      password.ucChars=charsRemaining;
+      charsRemaining=0;  
+      return
+    }
+  }
+  if(password.numChars==-1){
+    if(charsRemaining>intDiv){
+      password.numChars=intDiv;
+      charsRemaining-=intDiv;  
+    } else {
+      password.numChars=charsRemaining;
+      charsRemaining=0;  
+      return
+    }
+  }
+  if(password.specialChars==-1){
+    if(charsRemaining>intDiv){
+      password.specialChars=intDiv;
+      charsRemaining-=intDiv;  
+    } else {
+      password.specialChars=charsRemaining;
+      charsRemaining=0;  
+      return
+    }
+  }
 }
