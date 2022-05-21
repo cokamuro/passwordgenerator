@@ -46,7 +46,7 @@ function queryRules() {
     if(confirm("Include uppercase characters (Ok), or do not include (Cancel)?")==false){password.typeChars[1]=0}
     if(confirm("Include numeric characters (Ok), or do not include (Cancel)?")==false){password.typeChars[2]=0}
     if(confirm("Include special characters (Ok), or do not include (Cancel)?")==false){password.typeChars[3]=0}      
-    alert(password.typeChars[0]+":"+password.typeChars[1]+":"+password.typeChars[2]+":"+password.typeChars[3]);
+    console.log(password.typeChars[0]+":"+password.typeChars[1]+":"+password.typeChars[2]+":"+password.typeChars[3]);
     //my input should be validated and at least one character type should be selected
     if(password.typeChars[0]==0 && password.typeChars[1]==0 && password.typeChars[2]==0 && password.typeChars[3]==0) {
       alert("You must include at least one type of character for password generation.  Please try again")
@@ -69,18 +69,15 @@ function calculateCharsOfType() {
     password.typeChars[0]=intDiv;
     charsRemaining-=intDiv;
     lastValidType=0;
-    console.log("lowercase",password.typeChars[0],charsRemaining);
   }
   if(password.typeChars[1]==-1){
     lastValidType=1;
     if(charsRemaining>intDiv){
       password.typeChars[1]=intDiv;
       charsRemaining-=intDiv;  
-      console.log("uppercase",password.typeChars[1],charsRemaining);
     } else {
       password.typeChars[1]=charsRemaining;
       charsRemaining=0;  
-      console.log("uppercase(exit)",password.typeChars[1],charsRemaining);
     }
   }
   if(password.typeChars[2]==-1){
@@ -88,11 +85,9 @@ function calculateCharsOfType() {
     if(charsRemaining>intDiv){
       password.typeChars[2]=intDiv;
       charsRemaining-=intDiv;  
-      console.log("numbers",password.typeChars[2],charsRemaining);
     } else {
       password.typeChars[2]=charsRemaining;
       charsRemaining=0;  
-      console.log("numbers(exit)",password.typeChars[2],charsRemaining);
     }
   }
   if(password.typeChars[3]==-1){
@@ -100,11 +95,9 @@ function calculateCharsOfType() {
     if(charsRemaining>intDiv){
       password.typeChars[3]=intDiv;
       charsRemaining-=intDiv;  
-      console.log("specials",password.typeChars[2],charsRemaining);
     } else {
       password.typeChars[3]=charsRemaining;
       charsRemaining=0;  
-      console.log("specials(exit)",password.typeChars[2],charsRemaining);
     }
   }
   if(charsRemaining>0){
@@ -131,7 +124,6 @@ function genCompliantString() {
     i+=1
     whichType=getRandomNumberUpTo(3);
 
-    console.log(charsRemaining,password.typeChars[0],password.typeChars[1],password.typeChars[2],password.typeChars[3],password.literal);
     if(password.typeChars[whichType]>0){
       charSet=legalChars[whichType];
       charPosition=getRandomNumberUpTo(legalCounts[whichType]-1);
@@ -139,7 +131,6 @@ function genCompliantString() {
       password.literal+=selectedChar;
       charsRemaining-=1;
       password.typeChars[whichType]-=1;
-      console.log("type "+whichType, selectedChar, charsRemaining,password[whichType]);
     }
   }
   return;
