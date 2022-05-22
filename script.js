@@ -42,10 +42,10 @@ function queryRules() {
   }
   //confirm whether or not to include lowercase, uppercase, numeric, and/or special characters
   while (validRules==false) {
-    if(confirm("Include lowercase characters (Ok), or do not include (Cancel)?")==false){password.typeChars[0]=0}
-    if(confirm("Include uppercase characters (Ok), or do not include (Cancel)?")==false){password.typeChars[1]=0}
-    if(confirm("Include numeric characters (Ok), or do not include (Cancel)?")==false){password.typeChars[2]=0}
-    if(confirm("Include special characters (Ok), or do not include (Cancel)?")==false){password.typeChars[3]=0}      
+    if(confirm("Include lowercase characters (Ok), or do not include (Cancel)?")==false){password.typeChars[0]=0;}
+    if(confirm("Include uppercase characters (Ok), or do not include (Cancel)?")==false){password.typeChars[1]=0;}
+    if(confirm("Include numeric characters (Ok), or do not include (Cancel)?")==false){password.typeChars[2]=0;}
+    if(confirm("Include special characters (Ok), or do not include (Cancel)?")==false){password.typeChars[3]=0;}      
     console.log(password.typeChars[0]+":"+password.typeChars[1]+":"+password.typeChars[2]+":"+password.typeChars[3]);
     //my input should be validated and at least one character type should be selected
     if(password.typeChars[0]==0 && password.typeChars[1]==0 && password.typeChars[2]==0 && password.typeChars[3]==0) {
@@ -56,6 +56,23 @@ function queryRules() {
       password.typeChars[3]=-1;
     } else {
       validRules=true;
+    }      
+  }
+}
+
+function queryUserYesNo(message){
+  var validSelection=false;
+
+  while (validSelection==false) {
+    userSelection=prompt(message+" (enter Y for yes, and N for no)","Y").trimEnd.toUpperCase
+    if(userSelection!=null){
+      userSelection=userSelection.trimEnd.toUpperCase().substring(0,1);
+      if(userSelection=="Y"){
+        validSelection=true;
+        return true}
+      else if (userSelection=="N") {
+        validSelection=true;
+        return false}
     }      
   }
 }
@@ -118,19 +135,17 @@ function genCompliantString() {
   var i;
 
   const legalChars = ["abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ","0123456789","~!@#$%^&*()"];
-  const legalCounts = [26,26,10,11]
 
   while (charsRemaining!=0) {
-    i+=1
     whichType=getRandomNumberUpTo(3);
 
     if(password.typeChars[whichType]>0){
       charSet=legalChars[whichType];
-      charPosition=getRandomNumberUpTo(legalCounts[whichType]-1);
+      charPosition=getRandomNumberUpTo(charSet.length-1);
       selectedChar=legalChars[whichType].substring(charPosition,charPosition+1);
       password.literal+=selectedChar;
-      charsRemaining-=1;
-      password.typeChars[whichType]-=1;
+      charsRemaining--;
+      password.typeChars[whichType]--;
     }
   }
   return;
