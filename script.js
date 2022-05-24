@@ -123,7 +123,6 @@ function genCompliantString() {
   var whichType=0;
   var selectedChar="";
   var charPosition=0;
-  var i;
 
   const legalChars = ["abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ","0123456789","~!@#$%^&*()<>"];
 
