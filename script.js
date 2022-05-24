@@ -60,27 +60,15 @@ function queryRules() {
   }
 }
 
-function queryUserYesNo(message){
-  var validSelection=false;
-
-  while (validSelection==false) {
-    userSelection=prompt(message+" (enter Y for yes, and N for no)","Y").trimEnd.toUpperCase
-    if(userSelection!=null){
-      userSelection=userSelection.trimEnd.toUpperCase().substring(0,1);
-      if(userSelection=="Y"){
-        validSelection=true;
-        return true}
-      else if (userSelection=="N") {
-        validSelection=true;
-        return false}
-    }      
-  }
-}
-
 function calculateCharsOfType() {
   var charsRemaining=password.len;
   var intDiv=parseInt(password.len/(password.typeChars[0]+password.typeChars[1]+password.typeChars[2]+password.typeChars[3])*-1);
   var lastValidType=0;
+
+  //this probably requires some explanation... I wanted to generate a password
+  //that contained roughly the same number of each type of legal password
+  //required components are marked with a -1 in the array
+  //they're replaced with a non-0 number to generate
 
   if(password.typeChars[0]==-1){
     password.typeChars[0]=intDiv;
@@ -117,12 +105,15 @@ function calculateCharsOfType() {
       charsRemaining=0;  
     }
   }
+  //if the number wasn't evenly divisible by the number of allowed types, put the balance on the last 
+  //allowed type
   if(charsRemaining>0){
     password.typeChars[lastValidType]+=charsRemaining
   }
 }
 
 function getRandomNumberUpTo(maxLim){
+  //function to return a bounded random integer
   var calcValue=parseInt(Math.random()*(maxLim+1));
   return(calcValue);
 }
@@ -134,8 +125,13 @@ function genCompliantString() {
   var charPosition=0;
   var i;
 
-  const legalChars = ["abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ","0123456789","~!@#$%^&*()"];
+  const legalChars = ["abcdefghijklmnopqrstuvwxyz","ABCDEFGHIJKLMNOPQRSTUVWXYZ","0123456789","~!@#$%^&*()<>"];
 
+  //since my method already has the calculated number of each type of character 
+  //by the time it gets to this function, this gets an index for the charset type,
+  //checks to see if any more of that charset are required.  if they are, get a 
+  //random character position within the charset, append that to the password, and 
+  //decrement the number of characters required in that charset by one
   while (charsRemaining!=0) {
     whichType=getRandomNumberUpTo(3);
 
